@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.util.List;
 
 import biuoop.DrawSurface;
 
@@ -11,6 +12,8 @@ import biuoop.DrawSurface;
 public class SpriteCollection {
     //fields
     private final LinkedList<Sprite> sprites;
+    private final List<Sprite> spritesToRemove;
+
 
     //constructor
 
@@ -19,6 +22,7 @@ public class SpriteCollection {
      */
     public SpriteCollection() {
         sprites = new LinkedList<>();
+        spritesToRemove = new LinkedList<>();
     }
 
 
@@ -39,7 +43,7 @@ public class SpriteCollection {
      */
     public void removeSprite(Sprite s) {
         // Remove a sprite from the collection.
-        sprites.remove(s);
+    spritesToRemove.add(s);
     }
 
     // call timePassed() on all sprites.
@@ -51,6 +55,9 @@ public class SpriteCollection {
         for (Sprite s : sprites) {
             s.timePassed();
         }
+        // Remove sprites after iteration
+        sprites.removeAll(spritesToRemove);
+        spritesToRemove.clear();
     }
     // call drawOn(d) on all sprites.
 

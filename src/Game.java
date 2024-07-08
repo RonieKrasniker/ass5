@@ -46,6 +46,12 @@ public class Game {
         this.gui = new GUI("Arkanoid", 800, 600);
         //creat the screen as a block
         Block screen = new Block(new Point(0, 0), 800, 600, Color.BLUE);
+        //create a death region as a block
+        Block deathRegion = new Block(new Point(0, 599), 800, 1, Color.BLACK);
+        //create a counter for blocks
+        Counter remainingBlocks = new Counter(63);
+        //create block remover
+        BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
         //initialize the game environment
         this.environment = new GameEnvironment();
         //initialize the sprites collection
@@ -72,6 +78,7 @@ public class Game {
             for (int j = 0; j < 12 - i; j++) {
                 //make each row a different color noticbley different from the previous row
                 Block block = new Block(new Point(800 - 50 - j * 50, 100 + i * 25), 50, 25, colors[i]);
+                block.addHitListener(blockRemover);
                 block.addToGame(this);
             }
         }
