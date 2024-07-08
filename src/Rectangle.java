@@ -153,7 +153,7 @@ public class Rectangle {
         java.util.List<Point> intersectionPoints = new java.util.ArrayList<>();
         for (Line l : this.getLines()) {
             Point intersection = l.intersectionWith(line);
-            if (intersection != null) {,
+            if (intersection != null) {
                 intersectionPoints.add(intersection);
             }
         }

@@ -1,5 +1,6 @@
 import biuoop.DrawSurface;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Block class.
@@ -63,9 +64,10 @@ public class Block implements Collidable, Sprite, HitNotifier {
      *
      * @param collisionPoint  the point of collision
      * @param currentVelocity the current velocity
+     * @param hitter          the ball that hit the block
      * @return the new velocity expected after the hit
      */
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         //initialize the new velocity
         Velocity newVelocity = currentVelocity;
         //loop through the lines of the rectangle and check if the collision point is on one of them
@@ -76,6 +78,9 @@ public class Block implements Collidable, Sprite, HitNotifier {
                 newVelocity = currentVelocity.adjustVelocity(line);
                 break;
             }
+        }
+        if (!ballColorMatch(hitter)) {
+            this.notifyHit(hitter);
         }
         return newVelocity;
     }
@@ -144,5 +149,19 @@ public class Block implements Collidable, Sprite, HitNotifier {
      */
     public void removeHitListener(HitListener hl) {
         this.hitListeners.remove(hl);
+    }
+// notifyHit method that notifies all the HitListeners that the block has been hit
+    /**
+     * Notify all the HitListeners that the block has been hit.
+     *
+     * @param hitter the ball that hit the block
+     */
+    private void notifyHit(Ball hitter) {
+    // Make a copy of the hitListeners before iterating over them.
+        List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);
+    // Notify all listeners about a hit event:
+        for (HitListener hl : listeners) {
+            hl.hitEvent(this, hitter);
+        }
     }
 }

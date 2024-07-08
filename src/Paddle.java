@@ -132,11 +132,12 @@ public class Paddle implements Sprite, Collidable {
      * The return is the new velocity expected after the hit (based on
      * the force the object inflicted on us).
      *
+     * @param hitter          the ball that hit the block
      * @param collisionPoint  the point of collision
      * @param currentVelocity the current velocity
      * @return the new velocity expected after the hit
      */
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         //initialize the new velocity
         Velocity newVelocity = currentVelocity;
         //loop through the lines of the rectangle and check if the collision point is on one of them

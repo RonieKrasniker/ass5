@@ -24,9 +24,10 @@ public interface Collidable {
      * The return is the new velocity expected after the hit (based on
      * the force the object inflicted on us).
      *
+     * @param hitter the ball that hit the block
      * @param collisionPoint the point of collision
      * @param currentVelocity the current velocity
      * @return the new velocity expected after the hit
      */
-    Velocity hit(Point collisionPoint, Velocity currentVelocity);
+    Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity);
 }
