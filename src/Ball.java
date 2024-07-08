@@ -11,7 +11,7 @@ public class Ball implements Sprite {
     // fields
     private Point center;
     private final int r;
-    private final java.awt.Color color;
+    private  java.awt.Color color;
     private Velocity velocity;
     private int surfaceWidth;
     private int surfaceHeight;
@@ -319,6 +319,15 @@ public class Ball implements Sprite {
      */
     public void removeFromGame(Game g) {
         g.removeSprite(this);
+    }
+    // set ball color
+    /**
+     * Set the color of the ball.
+     *
+     * @param c the color of the ball
+     */
+    public void setColor(java.awt.Color c) {
+        this.color = c;
     }
 }
 

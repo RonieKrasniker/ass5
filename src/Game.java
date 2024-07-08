@@ -56,7 +56,7 @@ public class Game {
         deathRegion.addHitListener(ballRemover);
         //create a counter for blocks
         remainingBlocks = new Counter(63);
-
+        //
         //create block remover
         BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
         //initialize the game environment
