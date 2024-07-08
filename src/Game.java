@@ -1,7 +1,6 @@
 import biuoop.GUI;
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
-
 import java.awt.Color;
 
 /**
