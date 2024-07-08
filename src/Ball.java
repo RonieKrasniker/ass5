@@ -210,7 +210,7 @@ public class Ball implements Sprite {
             //apply the adjusted point
             this.center = this.velocity.applyToPoint(collisionPoint, collisionLine, this.r, this.velocity);
             //notify the object that we collided with it
-            this.velocity = collision.collisionObject().hit(collisionPoint, this.velocity);
+            this.velocity = collision.collisionObject().hit(this, collisionPoint, this.velocity);
 
         }
     }

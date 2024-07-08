@@ -27,6 +27,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         this.rect = rect;
         this.color = color;
         this.rect.setColor(color);
+        this.hitListeners = new ArrayList<HitListener>();
     }
 
     /**
@@ -41,6 +42,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         this.rect = new Rectangle(upperLeft, width, height);
         this.color = color;
         this.rect.setColor(color);
+        this.hitListeners = new ArrayList<HitListener>();
     }
 
     //accessors
