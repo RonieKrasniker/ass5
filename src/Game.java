@@ -1,6 +1,7 @@
 import biuoop.GUI;
 import biuoop.DrawSurface;
 import biuoop.Sleeper;
+
 import java.awt.Color;
 
 /**
@@ -107,12 +108,10 @@ public class Game {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
         }
-
     }
     //  removeCollidable method
     /**
      * Remove a collidable from the game environment.
-     *
      * @param c the collidable to remove
      */
     public void removeCollidable(Collidable c) {
