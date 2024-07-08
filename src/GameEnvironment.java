@@ -98,5 +98,14 @@ public class GameEnvironment {
         return closestCollision;
 
     }
-
+    // removeCollidable method
+    // remove the given collidable from the environment.
+    /**
+     * Remove a collidable from the game environment.
+     *
+     * @param c the collidable to remove
+     */
+    public void removeCollidable(Collidable c) {
+        this.collidables.remove(c);
+    }
 }

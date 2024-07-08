@@ -110,5 +110,22 @@ public class Game {
         }
 
     }
-
+    //  removeCollidable method
+    /**
+     * Remove a collidable from the game environment.
+     *
+     * @param c the collidable to remove
+     */
+    public void removeCollidable(Collidable c) {
+        this.environment.removeCollidable(c);
+    }
+    // removeSprite method
+    /**
+     * Remove a sprite from the game.
+     *
+     * @param s the sprite to remove
+     */
+    public void removeSprite(Sprite s) {
+        this.sprites.removeSprite(s);
+    }
 }

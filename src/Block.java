@@ -6,7 +6,7 @@ import biuoop.DrawSurface;
  * The class has methods to draw the block on a DrawSurface and get its properties.
  * a block is a rectangle with color
   */
-public class Block implements Collidable, Sprite {
+public class Block implements Collidable, Sprite, HitNotifier {
 
     //fields
     private final Rectangle rect;
@@ -103,5 +103,35 @@ public class Block implements Collidable, Sprite {
      */
     public void timePassed() {
         //empty method
+    }
+    // check if the ball and the block had the same color with this methods ballColorMatch(Ball
+    //ball)
+    /**
+     * Check if the ball and the block have the same color.
+     *
+     * @param ball the ball to check if it has the same color as the block
+     * @return true if the ball and the block have the same color, false otherwise
+     */
+    public boolean ballColorMatch(Ball ball) {
+        return this.color.equals(ball.getColor());
+    }
+    //  removeFromGame(Game game) method that removes the block from the game
+    /**
+     * Remove the block from a game.
+     *
+     * @param game the game to remove the block from
+     */
+    public void removeFromGame(Game game) {
+        game.removeCollidable(this);
+        game.removeSprite(this);
+    }
+    // addHitListener method that adds a HitListener to the block
+    /**
+     * Add a HitListener to the block.
+     *
+     * @param hl the HitListener to add
+     */
+    public void addHitListener(HitListener hl) {
+        hl.hitEvent(this);
     }
 }
