@@ -13,7 +13,7 @@ public class BallRemover implements HitListener {
      *
      * @param removedBalls the counter of removed balls
      */
-    public BallRemover(Counter removedBalls) {
+    public BallRemover(Game game, Counter removedBalls) {
         this.game = game;
         this.remainingBalls = removedBalls;
     }
@@ -27,8 +27,7 @@ public class BallRemover implements HitListener {
      */
     // remove the ball from the game and decrease the counter of remaining balls
     public void hitEvent(Block beingHit, Ball hitter) {
-        beingHit.removeFromGame(this.game);
-        beingHit.removeHitListener(this);
+        hitter.removeFromGame(this.game);
         this.remainingBalls.decrease(1);
     }
 }

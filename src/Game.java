@@ -13,6 +13,8 @@ public class Game {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private GUI gui;
+    private Counter remainingBalls;
+    private Counter remainingBlocks;
 
     //add collidable to the game environment
 
@@ -48,8 +50,13 @@ public class Game {
         Block screen = new Block(new Point(0, 0), 800, 600, Color.BLUE);
         //create a death region as a block
         Block deathRegion = new Block(new Point(0, 599), 800, 1, Color.BLACK);
+        //ball remover
+        remainingBalls = new Counter(3);
+        BallRemover ballRemover = new BallRemover(this, remainingBalls);
+        deathRegion.addHitListener(ballRemover);
         //create a counter for blocks
-        Counter remainingBlocks = new Counter(63);
+        remainingBlocks = new Counter(63);
+
         //create block remover
         BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
         //initialize the game environment
@@ -57,12 +64,13 @@ public class Game {
         //initialize the sprites collection
         this.sprites = new SpriteCollection();
         screen.addToGame(this);
+        deathRegion.addToGame(this);
         //initialize the paddle
         Paddle paddle = new Paddle(200, 20, Color.YELLOW, 5);
         paddle.setKeyboard(gui.getKeyboardSensor());
         paddle.addToGame(this);
         //initialize the balls
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             Ball ball = new Ball(new Point((400 + i * 25) % 600, (400 - i * 25) % 800), 5, Color.WHITE, environment);
             ball.setVelocity(2 * Math.pow(-1, i), 2);
             //add the ball to the game
@@ -114,6 +122,17 @@ public class Game {
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
+//no balss left
+            if (remainingBalls.getValue() == 0) {
+                gui.close();
+                break;
+            }
+            //no blocks left
+            if (remainingBlocks.getValue() == 0) {
+                gui.close();
+                break;
+            }
+
         }
     }
     //  removeCollidable method
