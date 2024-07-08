@@ -15,6 +15,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
     private final Rectangle rect;
     private final java.awt.Color color;
     private List<HitListener> hitListeners;
+    private Counter row;
 
     //constructor
 
@@ -169,5 +170,23 @@ public class Block implements Collidable, Sprite, HitNotifier {
         }
         //set the color of the ball to the color of the block
         hitter.setColor(this.color);
+    }
+    // setRow method that sets the row of the block
+    /**
+     * Set the row of the block.
+     *
+     * @param r the row of the block
+     */
+    public void setRow(Counter r) {
+        this.row = r;
+    }
+    // getRow method that returns the row of the block
+    /**
+     * Return the row of the block.
+     *
+     * @return the row of the block
+     */
+    public Counter getRow() {
+        return this.row;
     }
 }

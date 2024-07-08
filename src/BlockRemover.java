@@ -1,11 +1,17 @@
 // a BlockRemover is in charge of removing blocks from the game, as well as keeping count
 // of the number of blocks that remain.
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Block remover class.
  */
 public class BlockRemover implements HitListener {
     private Game game;
     private Counter remainingBlocks;
+    private Map<Integer, Integer> blocksPerRow; // Tracks blocks per row
+
     // constructor
     // create a new BlockRemover with the game and the counter of remaining blocks
     /**
@@ -16,6 +22,7 @@ public class BlockRemover implements HitListener {
     public BlockRemover(Game game, Counter remainingBlocks) {
         this.game = game;
         this.remainingBlocks = remainingBlocks;
+        this.blocksPerRow = new HashMap<>();
     }
     // Blocks that are hit should be removed
 // from the game. Remember to remove this listener from the block
@@ -26,8 +33,11 @@ public class BlockRemover implements HitListener {
      * @param hitter the ball that is hitting the block
      */
     public void hitEvent(Block beingHit, Ball hitter) {
+        beingHit.getRow().decrease(1);
         beingHit.removeFromGame(this.game);
         beingHit.removeHitListener(this);
         this.remainingBlocks.decrease(1);
     }
+
+
 }

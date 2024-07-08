@@ -43,4 +43,7 @@ public class Counter {
     int getValue() {
         return this.count;
     }
+    String getStrValue() {
+        return Integer.toString(this.count);
+    }
 }

@@ -3,6 +3,7 @@ import biuoop.DrawSurface;
 import biuoop.Sleeper;
 
 import java.awt.Color;
+import java.util.List;
 
 /**
  * Game class.
@@ -15,6 +16,9 @@ public class Game {
     private GUI gui;
     private Counter remainingBalls;
     private Counter remainingBlocks;
+    private Counter score;
+    private ScoreTrackingListener scoreTrackingListener;
+    private List<Counter> RowCountes;
 
     //add collidable to the game environment
 
@@ -44,6 +48,8 @@ public class Game {
      * Initialize the game.
      */
     public void initialize() {
+        //initialize the row counters
+        RowCountes = new java.util.ArrayList<Counter>();
         //create the gui
         this.gui = new GUI("Arkanoid", 800, 600);
         //creat the screen as a block
@@ -56,10 +62,13 @@ public class Game {
         deathRegion.addHitListener(ballRemover);
         //create a counter for blocks
         remainingBlocks = new Counter(63);
-        //
         //create block remover
         BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
-        //initialize the game environment
+        // creat a counter for the score
+        score = new Counter(0);
+        //creat a score tracking listener
+        scoreTrackingListener = new ScoreTrackingListener(score);
+          //initialize the game environment
         this.environment = new GameEnvironment();
         //initialize the sprites collection
         this.sprites = new SpriteCollection();
@@ -83,10 +92,14 @@ public class Game {
         //enum the selected colors for the rows
         Color[] colors = {Color.RED, Color.ORANGE, Color.GREEN, Color.GRAY, Color.YELLOW, Color.PINK};
         for (int i = 0; i < 6; i++) {
+            //add row counter
+            RowCountes.add(new Counter(12 - i));
             for (int j = 0; j < 12 - i; j++) {
                 //make each row a different color noticbley different from the previous row
                 Block block = new Block(new Point(800 - 50 - j * 50, 100 + i * 25), 50, 25, colors[i]);
                 block.addHitListener(blockRemover);
+                block.addHitListener(scoreTrackingListener);
+                block.setRow(RowCountes.get(i));
                 block.addToGame(this);
             }
         }
@@ -113,7 +126,23 @@ public class Game {
         while (true) {
             long startTime = System.currentTimeMillis(); // timing
             DrawSurface d = gui.getDrawSurface();
+
             this.sprites.drawAllOn(d);
+            // print the score on the top of the screen
+            d.drawText(400, 20, "Score:", 16);
+            // if row is cleared add 100 points
+            for (Counter rowCounter : RowCountes) {
+                if (rowCounter.getValue() == 0) {
+                    score.increase(100);
+                    RowCountes.remove(rowCounter);
+                }
+            }
+            // print the current score on the top of the screen
+            d.drawText(450, 20, score.getStrValue(), 16);
+            // check if all the blocks are cleared and add 100 points
+            if (remainingBlocks.getValue() == 0) {
+                score.increase(100);
+            }
             gui.show(d);
             this.sprites.notifyAllTimePassed();
             // timing
