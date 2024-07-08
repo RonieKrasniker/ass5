@@ -165,5 +165,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
         for (HitListener hl : listeners) {
             hl.hitEvent(this, hitter);
         }
+        //set the color of the ball to the color of the block
+        hitter.setColor(this.color);
     }
 }
