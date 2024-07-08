@@ -1,4 +1,5 @@
 import biuoop.DrawSurface;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -122,6 +123,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * @return true if the ball and the block have the same color, false otherwise
      */
     public boolean ballColorMatch(Ball ball) {
+
         return this.color.equals(ball.getColor());
     }
     //  removeFromGame(Game game) method that removes the block from the game

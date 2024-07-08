@@ -47,7 +47,7 @@ public class Game {
         //create the gui
         this.gui = new GUI("Arkanoid", 800, 600);
         //creat the screen as a block
-        Block screen = new Block(new Point(0, 0), 800, 600, Color.BLUE);
+        Screen screen = new Screen(800, 600, Color.BLUE);
         //create a death region as a block
         Block deathRegion = new Block(new Point(0, 599), 800, 1, Color.BLACK);
         //ball remover
@@ -122,7 +122,7 @@ public class Game {
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
-//no balss left
+            //no balls left
             if (remainingBalls.getValue() == 0) {
                 gui.close();
                 break;
@@ -136,14 +136,17 @@ public class Game {
         }
     }
     //  removeCollidable method
+
     /**
      * Remove a collidable from the game environment.
+     *
      * @param c the collidable to remove
      */
     public void removeCollidable(Collidable c) {
         this.environment.removeCollidable(c);
     }
     // removeSprite method
+
     /**
      * Remove a sprite from the game.
      *
