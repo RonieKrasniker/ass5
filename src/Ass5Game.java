@@ -11,5 +11,7 @@ public class Ass5Game {
         Game game = new Game();
         game.initialize();
         game.run();
-        }
+    }
+
 }
+

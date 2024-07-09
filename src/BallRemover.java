@@ -1,3 +1,4 @@
+
 /**
  * BallRemover class. This class is in charge of removing balls from the game, as well as keeping count
  * of the number of balls that remain in the game.
@@ -6,6 +7,7 @@ public class BallRemover implements HitListener {
     // fields
     private Game game;
     private Counter remainingBalls;
+    private PlaySound ballLostSound;
 
     // constructor
     /**
@@ -16,6 +18,7 @@ public class BallRemover implements HitListener {
     public BallRemover(Game game, Counter removedBalls) {
         this.game = game;
         this.remainingBalls = removedBalls;
+        this.ballLostSound = new PlaySound(false,"BallLost.wav");
     }
 
     // methods
@@ -29,5 +32,7 @@ public class BallRemover implements HitListener {
     public void hitEvent(Block beingHit, Ball hitter) {
         hitter.removeFromGame(this.game);
         this.remainingBalls.decrease(1);
+        this.ballLostSound.play();
     }
+
 }

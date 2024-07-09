@@ -4,12 +4,14 @@
 import java.util.HashMap;
 import java.util.Map;
 
+
 /**
  * Block remover class.
  */
 public class BlockRemover implements HitListener {
     private Game game;
     private Counter remainingBlocks;
+    private PlaySound blockPopSFX;
     private Map<Integer, Integer> blocksPerRow; // Tracks blocks per row
 
     // constructor
@@ -22,6 +24,7 @@ public class BlockRemover implements HitListener {
     public BlockRemover(Game game, Counter remainingBlocks) {
         this.game = game;
         this.remainingBlocks = remainingBlocks;
+        blockPopSFX = new PlaySound(false, "BlockPopSFX.wav");
         this.blocksPerRow = new HashMap<>();
     }
     // Blocks that are hit should be removed
@@ -37,6 +40,7 @@ public class BlockRemover implements HitListener {
         beingHit.removeFromGame(this.game);
         beingHit.removeHitListener(this);
         this.remainingBlocks.decrease(1);
+        blockPopSFX.play();
     }
 
 

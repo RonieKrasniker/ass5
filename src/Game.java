@@ -17,8 +17,8 @@ public class Game {
     private Counter remainingBalls;
     private Counter remainingBlocks;
     private Counter score;
-    private ScoreTrackingListener scoreTrackingListener;
-    private List<Counter> RowCountes;
+    private List<Counter> rowCounters;
+    private PlaySound backgroundMusic;
 
     //add collidable to the game environment
 
@@ -49,7 +49,7 @@ public class Game {
      */
     public void initialize() {
         //initialize the row counters
-        RowCountes = new java.util.ArrayList<Counter>();
+        rowCounters = new java.util.ArrayList<>();
         //create the gui
         this.gui = new GUI("Arkanoid", 800, 600);
         //creat the screen as a block
@@ -67,8 +67,8 @@ public class Game {
         // creat a counter for the score
         score = new Counter(0);
         //creat a score tracking listener
-        scoreTrackingListener = new ScoreTrackingListener(score);
-          //initialize the game environment
+        HitListener scoreTrackingListener = new ScoreTrackingListener(score);
+        //initialize the game environment
         this.environment = new GameEnvironment();
         //initialize the sprites collection
         this.sprites = new SpriteCollection();
@@ -93,17 +93,20 @@ public class Game {
         Color[] colors = {Color.RED, Color.ORANGE, Color.GREEN, Color.GRAY, Color.YELLOW, Color.PINK};
         for (int i = 0; i < 6; i++) {
             //add row counter
-            RowCountes.add(new Counter(12 - i));
+            rowCounters.add(new Counter(12 - i));
             for (int j = 0; j < 12 - i; j++) {
                 //make each row a different color noticbley different from the previous row
                 Block block = new Block(new Point(800 - 50 - j * 50, 100 + i * 25), 50, 25, colors[i]);
                 block.addHitListener(blockRemover);
                 block.addHitListener(scoreTrackingListener);
-                block.setRow(RowCountes.get(i));
+                block.setRow(rowCounters.get(i));
                 block.addToGame(this);
             }
         }
 
+        //initialize the background music
+        backgroundMusic = new PlaySound(true, "backgroundMusic.wav");
+        backgroundMusic.play();
 
     }
 
@@ -125,17 +128,61 @@ public class Game {
         int millisecondsPerFrame = 1000 / framesPerSecond;
         while (true) {
             long startTime = System.currentTimeMillis(); // timing
-            DrawSurface d = gui.getDrawSurface();
+            //no balls left
+            if (remainingBalls.getValue() == 0 || remainingBlocks.getValue() == 0) {
+                DrawSurface d = gui.getDrawSurface();
+                backgroundMusic.stop();
+                backgroundMusic.close();
+                //create a new screen with the message
+                Screen screen = new Screen(800, 600, Color.RED);
+                //draw screen
+                screen.drawOn(d);
+                gui.show(d);
+                DrawSurface e = gui.getDrawSurface();
+                //play game over sound
+                if (remainingBalls.getValue() == 0) {
+                    PlaySound gameOverSound = new PlaySound(false, "GameOver.wav");
+                    gameOverSound.play();
+                    //wait for 2 seconds
+                    sleeper.sleepFor(2000);
 
+                    screen.drawOn(e);
+
+                    //write a message - game over
+                    e.drawText(300, 300, "Game Over", 32);
+                } else {
+                    PlaySound youWonSound = new PlaySound(true, "YouWon.wav");
+                    youWonSound.play();
+                    //wait for 2 seconds
+                    sleeper.sleepFor(2000);
+                    //write a message - you won
+                    d.drawText(300, 300, "You Won!", 32);
+                }
+                //draw the score
+                e.drawText(300, 350, "Your score is: " + score.getStrValue(), 32);
+                gui.show(e);
+                //wait for 2 seconds
+                sleeper.sleepFor(2000);
+                gui.close();
+                break;
+            }
+            DrawSurface d = gui.getDrawSurface();
             this.sprites.drawAllOn(d);
             // print the score on the top of the screen
             d.drawText(400, 20, "Score:", 16);
             // if row is cleared add 100 points
-            for (Counter rowCounter : RowCountes) {
+            //temp counter to store the row counter
+            Counter tempCounter = null;
+            for (Counter rowCounter : rowCounters) {
                 if (rowCounter.getValue() == 0) {
                     score.increase(100);
-                    RowCountes.remove(rowCounter);
+                    //store the row counter to remove it later
+                    tempCounter = rowCounter;
                 }
+            }
+            //remove the row counter
+            if (tempCounter != null) {
+                rowCounters.remove(tempCounter);
             }
             // print the current score on the top of the screen
             d.drawText(450, 20, score.getStrValue(), 16);
@@ -151,17 +198,6 @@ public class Game {
             if (milliSecondLeftToSleep > 0) {
                 sleeper.sleepFor(milliSecondLeftToSleep);
             }
-            //no balls left
-            if (remainingBalls.getValue() == 0) {
-                gui.close();
-                break;
-            }
-            //no blocks left
-            if (remainingBlocks.getValue() == 0) {
-                gui.close();
-                break;
-            }
-
         }
     }
     //  removeCollidable method
@@ -184,4 +220,9 @@ public class Game {
     public void removeSprite(Sprite s) {
         this.sprites.removeSprite(s);
     }
+
+    // unwinnable scenario: more than one block of the same color remains but all balls are the same color
+    // the game will never end because the balls will never pop the blocks
+    // the game will be stuck in an infinite loop
+
 }
