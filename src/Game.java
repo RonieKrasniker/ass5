@@ -163,7 +163,7 @@ public class Game {
                 e.drawText(300, 350, "Your score is: " + score.getStrValue(), 32);
                 gui.show(e);
                 //wait for 2 seconds
-                sleeper.sleepFor(10000);
+                sleeper.sleepFor(8000);
                 gui.close();
                 break;
             }
