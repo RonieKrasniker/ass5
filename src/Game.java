@@ -61,7 +61,7 @@ public class Game {
         BallRemover ballRemover = new BallRemover(this, remainingBalls);
         deathRegion.addHitListener(ballRemover);
         //create a counter for blocks
-        remainingBlocks = new Counter(63);
+        remainingBlocks = new Counter(57);
         //create block remover
         BlockRemover blockRemover = new BlockRemover(this, remainingBlocks);
         // creat a counter for the score
@@ -150,6 +150,7 @@ public class Game {
 
                     //write a message - game over
                     e.drawText(300, 300, "Game Over", 32);
+
                 } else {
                     PlaySound youWonSound = new PlaySound(true, "YouWon.wav");
                     youWonSound.play();
