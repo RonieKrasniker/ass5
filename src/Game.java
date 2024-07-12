@@ -81,7 +81,7 @@ public class Game {
         //initialize the balls
         for (int i = 0; i < 3; i++) {
             Ball ball = new Ball(new Point((400 + i * 25) % 600, (400 - i * 25) % 800), 5, Color.WHITE, environment);
-            ball.setVelocity(2 * Math.pow(-1, i), 2);
+            ball.setVelocity(2 * Math.pow(-1, i), 2 * Math.pow(-1, i));
             //add the ball to the game
             ball.addToGame(this);
         }
@@ -157,13 +157,13 @@ public class Game {
                     //wait for 2 seconds
                     sleeper.sleepFor(2000);
                     //write a message - you won
-                    d.drawText(300, 300, "You Won!", 32);
+                    e.drawText(300, 300, "You Won!", 32);
                 }
                 //draw the score
                 e.drawText(300, 350, "Your score is: " + score.getStrValue(), 32);
                 gui.show(e);
                 //wait for 2 seconds
-                sleeper.sleepFor(2000);
+                sleeper.sleepFor(10000);
                 gui.close();
                 break;
             }
