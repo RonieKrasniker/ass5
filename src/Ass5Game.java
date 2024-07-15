@@ -1,3 +1,5 @@
+import engine.Game;
+
 /**
  * The main method that run the game.
  */
